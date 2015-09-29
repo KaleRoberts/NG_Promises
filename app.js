@@ -6,18 +6,13 @@
 
 	function getData($timeout, $q) {	// Using Angular's $timeout service to simulate asynchronous function
 		return function() {				// AJAX calls using the $http service are some of the most common scenarios where promises are used.
-		var defer = $q.defer();
-		// Simulating asynchronous functionality 
-		$timeout(function() {
-			var x = Math.round(Math.random());		// This is just true/false checking. Math.round will return a random number between 0(inclusive) and 1 (exclusive)
-			if (x) {								// So we use Math.round to round up or down to 1 and 0 respectively.
-				defer.resolve('data received!' + x);	
-			} else {
-				defer.reject('An error occurred! Try again?' +x);
-			}
-		}, 2000)
-		return defer.promise;
-		}
+		// Still simulated async 
+		return $q(function(resolve, reject) {
+			$timeout(function() {		// This is just true/false checking. Math.round will return a random number between 0(inclusive) and 1 (exclusive)
+				resolve(Math.floor(Math.random() * 10));
+			}, 2000);
+		});
+		};
 	};
 
 	app.factory('getData', getData);
@@ -30,9 +25,11 @@
 			console.error(error);
 		})
 		.then(function() {	// Mutliple callback functions can be registered to the same promise object by amking different calls to the then() method.
-			console.log("This is another promise resolution");	// Functions are executed in the order that they are registered. 
-		})	// So  regardless of if the first promise is resolved or not we will always get this second one saying, "This is another promise resolution"
-
+			console.log("This is another new promise resolution of the getData function");	// Functions are executed in the order that they are registered. 
+		})	// So  regardless of if the first promise is resolved or not we will get this second one saying, "This is another promise resolution"
+		.finally(function() {	// The finally() method is executed regardless of whether or not the success or error callbacks were invoked. 
+			console.log('Finished at: ', new Date());	// This can be used to reset a form or something to a pristine state. (Angular has a pristine state for forms I think actually)
+		})
 	});
 
 }());
