@@ -17,7 +17,7 @@
 
 	app.factory('getData', getData);
 	
-	app.run(function(getData) {
+	app.run(function(getData) {		
 		var promise = getData()
 			.then(function(num) {
 				console.log(num);
@@ -28,5 +28,35 @@
 				console.log(num); // Which will be the random number from getData and the first promise resolution multiplied by 2
 			})
 	});
+
+	app.directive('welcome', function() {	// I'm essentially writing my own HTML element by using the directive method of the Angular module.
+		return {
+			restritct: 'E',
+			template: "<div>Hi there! This is use of a directive</div>"
+		}
+	});
+
+	app.directive('clock', function() {
+		return {
+			restrict: 'E',
+			scope: {
+				timezone: '@'
+			},
+			template: "<div>12:00pm {{timezone}}</div>"
+		};
+	});
+
+	app.directive('panel', function() {
+		return {
+			restrict: 'E',
+			transclude: true,
+			scope: {
+				title: "@" // Recall this is Angular specific syntax for Strings
+			},
+			template: "<div style='border: 3px solid #000000'>" +
+					  "<div class='alert-box'>{{title}}</div>" +
+					  "<div ng-transclude></div></div>"
+		};
+	})
 
 }());

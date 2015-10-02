@@ -5,6 +5,15 @@
 		<script src="app.js"></script>	<!-- Angular with throw a module registration error if this is not right -->
 	</head>
 	<body ng-app="promiseApp">
-
+		<welcome></welcome>
+		<panel title="I'm a title">
+			<clock timezone="MST"></clock>
+		</panel>
+		<panel title="I'm a title">
+			<clock timezone="PST"></clock>	<!-- The clock directive is getting used inside the panel directive -->
+			<clock timezone="PST"></clock>
+			<clock timezone="PST"></clock>
+			<clock timezone="PST"></clock>
+		</panel>
 	</body>
 </html>
